@@ -1,5 +1,7 @@
 package com.gameproject.gameproject;
 
+
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -46,34 +48,14 @@ public class MainMenu extends Application {
         imgView.setFitHeight(900);
 
         gameMenu = new GameMenu();
-        gameMenu.setVisible(false);
+        gameMenu.setVisible(true);
 
 
         root.getChildren().addAll(imgView, gameMenu);
 
-        FadeTransition splashScreenSceneIn = new FadeTransition(Duration.seconds(3), root);
-        splashScreenSceneIn.setFromValue(0);
-        splashScreenSceneIn.setToValue(1);
-        splashScreenSceneIn.setCycleCount(1);
-
-        FadeTransition splashScreenSceneOut = new FadeTransition(Duration.seconds(3), root);
-        splashScreenSceneOut.setFromValue(1);
-        splashScreenSceneOut.setToValue(0);
-        splashScreenSceneOut.setCycleCount(1);
 
         Scene menuScene = new Scene(root);
 
-
-        splashScreenSceneIn.setOnFinished((e) -> {
-            splashScreenSceneOut.play();
-        });
-
-        //After fade out, load actual content
-        splashScreenSceneOut.setOnFinished((e) -> {
-            primaryStage.setScene(menuScene);
-            primaryStage.setResizable(false);
-            primaryStage.show();
-        });
 
         menuScene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ESCAPE) {
@@ -81,7 +63,6 @@ public class MainMenu extends Application {
                     FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
                     ft.setFromValue(0);
                     ft.setToValue(1);
-
                     gameMenu.setVisible(true);
                     ft.play();
                 }
@@ -94,7 +75,8 @@ public class MainMenu extends Application {
                 }
             }
         });
-        splashScreenSceneIn.play();
+        primaryStage.setScene(menuScene);
+        primaryStage.show();
 
     }
 
@@ -222,8 +204,49 @@ public class MainMenu extends Application {
             setOnMouseReleased(event -> setEffect(null));
         }
     }
+    /*private static class splashScreen extends StackPane{
+
+        private void loadSplashScreen(Pane pane) {
+            FadeTransition fadeIn = new FadeTransition(Duration.seconds(3), pane);
+            fadeIn.setFromValue(0);
+            fadeIn.setToValue(1);
+            fadeIn.setCycleCount(1);
+
+            //Finish splash with fade out effect
+            FadeTransition fadeOut = new FadeTransition(Duration.seconds(3), pane);
+            fadeOut.setFromValue(1);
+            fadeOut.setToValue(0);
+            fadeOut.setCycleCount(1);
+
+            fadeIn.play();
+
+            //After fade in, start fade out
+            fadeIn.setOnFinished((e) -> {
+                fadeOut.play();
+            });
+
+            //After fade out, load actual content
+            *//*fadeOut.setOnFinished((e) -> {
+                try {
+                    AnchorPane parentContent = FXMLLoader.load(getClass().getResource(("/main.fxml")));
+                    root.getChildren().setAll(parentContent);
+                } catch (IOException ex) {
+                    Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+        } catch (IOException ex) {
+            Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+        }*//*
+        }
+    }*/
+
+
+
 
     public static void main(String[] args) {
         launch(args);
     }
+
+
 }
+
